@@ -19,8 +19,7 @@
 -- +----+------------------+
 
 -- Solution 1
-SELECT *
-FROM Person
+DELETE FROM Person
 WHERE Id NOT IN (
   SELECT MIN(Id)
   FROM Person
