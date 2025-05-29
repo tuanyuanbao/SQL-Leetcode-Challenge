@@ -30,9 +30,24 @@
 -- +-----------+
 
 
--- Solution
-Select Name as Customers
-from Customers
-where id != All(select c.id
-                from Customers c, Orders o
-                where c.id = o.Customerid) 
+-- Solution 1: left join
+SELECT Name AS Customers
+FROM Customers c
+LEFT JOIN Orders o ON c.Id = o.CustomerId
+WHERE o.CustomerId IS NULL;
+
+-- Solution 2:not exists
+SELECT Id, Name
+FROM Customers c
+WHERE NOT EXISTS (
+  SELECT 1 
+  FROM Orders o 
+  WHERE o.CustomerId = c.Id
+);
+
+-- Solution 3: not in(If Orders.CustomerId can contain NULL values— it won’t return any rows, because NULL comparisons are tricky)
+SELECT Id, Name
+FROM Customers
+WHERE Id NOT IN (
+  SELECT CustomerId FROM Orders
+);
