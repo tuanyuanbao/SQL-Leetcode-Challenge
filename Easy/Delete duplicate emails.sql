@@ -18,7 +18,16 @@
 -- | 2  | bob@example.com  |
 -- +----+------------------+
 
--- Solution
+-- Solution 1
+SELECT *
+FROM Person
+WHERE Id NOT IN (
+  SELECT MIN(Id)
+  FROM Person
+  GROUP BY Email
+);
+
+-- Solution 2
 With t1 as
 (
  Select *,
